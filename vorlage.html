@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+  <title>PI4 Wave Generator</title>
+</head>
+<body>
+
+<h1 align="center">PI4 Wave Generator</h1>
+<hr>
+
+<br>
+<br>
+
+More on PI4: <a href="http://www.rudius.net/oz2m/ngnb/pi4.htm">www.rudius.net/oz2m/ngnb/pi4.htm</a>
+<br>
+<br>
+
+<form method="POST" action="/gen">
+    <table>
+        <tr>
+            <td><a href="http://www.rudius.net/oz2m/ngnb/pi4.htm" target="_blank">PI4</a> message</td>
+            <td><input type="text" style="text-transform: uppercase;" name="pi4Message" value="{{ pi4Message }}" size="9" maxlength="8"></td>
+        </tr>
+        <tr>
+            <td>CW ID (optional)</td>
+            <td><input type="text" style="text-transform: uppercase;" name="cwmsg" value="{{ cwmsg }}" size="30" maxlength="100"></td>
+        </tr>
+        <tr>
+            <td><br /><br /></td>
+            <td><input type="submit" value="Generate"> &nbsp; <a href="/">Clear</a></td>
+        </tr>
+    </table>
+</form>
+
+{% if pi4Message %}
+
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+<table border=0>
+  <tr>
+    <td><b>Input message&nbsp;&nbsp;</b></td>
+    <td><b>Eight char message&nbsp;&nbsp;</b></td>
+    <td><b>Source encoding</b></td>
+  </tr>
+  <tr>
+    <td>{{ pi4Message|safe }}&nbsp;&nbsp;</td>
+    <td>{{ EightCharMsg|replace(' ','<space>') }}&nbsp;&nbsp;</td>
+    <td>{{ SourceEncoding }}</td>
+  </tr>
+</table>
+<br>
+
+<b>Convolutional encoded data - {{ ConvEnc|length }}</b><br>
+{% for line in ConvEnc|batch(40) -%}
+{{ line|join(' ') }}<br>
+{% endfor %}
+
+<br>
+
+<b>Interleaved encoded data - {{ Intl|length }}</b><br>
+{% for line in Intl|batch(40) -%}
+{{ line|join(' ') }}<br>
+{% endfor %}
+
+<br>
+
+<b>Symbols - {{ Symbols|length }}</b><br>
+{% for line in Symbols|batch(40) -%}
+{{ line|join(' ') }}<br>
+{% endfor %}
+
+<br>
+
+<b>Four symbols packed into one byte - {{ SymBytes|length }}</b><br>
+{% for line in SymBytes|batch(19) -%}
+{{ line|join(' ') }}<br>
+{% endfor %}
+
+<br>
+
+<b>Frequencies</b><br>
+<table border=0>
+  <tr><td>Carrier:</td><td align=right> {{ carrier }} Hz </td></tr>
+  <tr><td>CW:</td><td align=right> {{ cwtone }} Hz </td></tr>
+  {% for tone in tones -%}
+  <tr><td>Tone {{ loop.index0 }}:</td><td align=right> {{ tone }} Hz </td></tr>
+  {% endfor %}
+</table>
+
+<p>&nbsp;</p>
+Download .wav files: <br/>
+<li>
+<ul><a href="/wav?pi4Message={{ pi4Message_url|safe }}&cwmsg={{ cwmsg_url|safe }}&mode=1">5s Carrier + PI4 + CW + Carrier</a> (for PI-RX), or</ul>
+<ul><a href="/wav?pi4Message={{ pi4Message_url|safe }}&cwmsg={{ cwmsg_url|safe }}&mode=2">PI4 + CW + Carrier</a> (a one minute transmit cycle [<a href="http://www.oz7igy.dk/pi4">www.oz7igy.dk/pi4</a>]), or</ul>
+<ul><a href="/wav?pi4Message={{ pi4Message_url|safe }}&cwmsg={{ cwmsg_url|safe }}&mode=3">PI4 part only</a>.</ul>
+</li>
+{% endif %}
+
+<p>&nbsp;</p>
+<hr>
+
+
+<font size="1">01.08.2014</font>
+
+</body>
+</html>
+{% endautoescape %}
