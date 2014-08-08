@@ -8,6 +8,7 @@ handlers:
   
 - url: /.*
   script: pi4gae.application
+  secure: always
   
 libraries:
 - name: webapp2
