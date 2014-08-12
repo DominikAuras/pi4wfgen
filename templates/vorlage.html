@@ -102,9 +102,14 @@ Get the source code of this app on GitHub: <a href="https://github.com/dominikau
 <p>&nbsp;</p>
 Download .wav files: <br/>
 <li>
-<ul><a href="/wav?pi4Message={{ pi4Message_url|safe }}&cwmsg={{ cwmsg_url|safe }}&mode=1">5s Carrier + PI4 + CW + Carrier</a> (for PI-RX), or</ul>
+{% if cwmsg_url %}
+<ul><a href="/wav?pi4Message={{ pi4Message_url|safe }}&cwmsg={{ cwmsg_url|safe }}&mode=1">5s Prologue + PI4 + CW + Carrier</a> (for PI-RX), or</ul>
 <ul><a href="/wav?pi4Message={{ pi4Message_url|safe }}&cwmsg={{ cwmsg_url|safe }}&mode=2">PI4 + CW + Carrier</a> (a one minute transmit cycle [<a href="http://www.oz7igy.dk/pi4">www.oz7igy.dk/pi4</a>]), or</ul>
-<ul><a href="/wav?pi4Message={{ pi4Message_url|safe }}&cwmsg={{ cwmsg_url|safe }}&mode=3">PI4 part only</a>.</ul>
+<ul><a href="/wav?pi4Message={{ pi4Message_url|safe }}&cwmsg={{ cwmsg_url|safe }}&mode=3">PI4 + CW</a>, or</ul>
+{% else %}
+<ul>Specify a CW message to download more modes</ul>
+{% endif %}
+<ul><a href="/wav?pi4Message={{ pi4Message_url|safe }}&mode=4">PI4 part only</a>.</ul>
 </li>
 {% endif %}
 
@@ -112,7 +117,7 @@ Download .wav files: <br/>
 <hr>
 
 
-<font size="1">01.08.2014</font>
+<font size="1">12.08.2014</font>
 
 </body>
 </html>

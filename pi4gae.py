@@ -26,7 +26,7 @@ class WaveFileDownload(webapp2.RequestHandler):
     try:
       msg = self.request.get('pi4Message')
       cwmsg = self.request.get('cwmsg')
-      mode = self.request.get_range('mode',min_value=1,max_value=3,default=1)
+      mode = self.request.get_range('mode',min_value=1,max_value=4,default=1)
       
       if not pi4_is_valid_msg(msg):
         self.response.write(errormsg("Invalid PI4 input: \"" + msg + "\""))
@@ -41,6 +41,8 @@ class WaveFileDownload(webapp2.RequestHandler):
       elif mode == 2:
         wf = PI4Beacon().pi4_cw_carrier(msg,cwmsg)
       elif mode == 3:
+        wf = PI4Beacon().pi4_cw(msg,cwmsg)
+      elif mode == 4:
         wf = PI4Beacon().pi4_only(msg)
       
       fname = "pi4wave"
