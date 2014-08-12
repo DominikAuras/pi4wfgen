@@ -16,7 +16,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     
     
 def errormsg(msg):              
-  template = JINJA_ENVIRONMENT.get_template('error.html')
+  template = JINJA_ENVIRONMENT.get_template('templates/error.html')
   return template.render(dict(error_message=msg))
     
     
@@ -54,7 +54,7 @@ class WaveFileDownload(webapp2.RequestHandler):
 
 class MainPage(webapp2.RequestHandler):
   def get(self):
-    template = JINJA_ENVIRONMENT.get_template('vorlage.html')
+    template = JINJA_ENVIRONMENT.get_template('templates/vorlage.html')
     self.response.write(template.render())
     
   def post(self):
@@ -88,7 +88,7 @@ class MainPage(webapp2.RequestHandler):
                 cwtone = pi4mod.cwtone,
               )
               
-    template = JINJA_ENVIRONMENT.get_template('vorlage.html')
+    template = JINJA_ENVIRONMENT.get_template('templates/vorlage.html')
     self.response.write(template.render(tpl))
     
     
